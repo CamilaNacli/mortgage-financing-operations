@@ -57,7 +57,10 @@ Each step is described in [docs/workflow.md](docs/workflow.md).
 | --- | --- |
 | Operational tracking and calculations | Google Sheets (formulas, drop-down lists, summary tabs) |
 | Document organization | Google Drive (restricted folders per client and application) |
-| Dashboard | Web page published on WordPress that reads the spreadsheet's CSV export and displays charts (Chart.js) |
+| Spreadsheet → dashboard connection | Google Sheets "Publish to the web" (CSV of the Applications tab), read by the dashboard on every load or refresh |
+| Dashboard | Web page (HTML + Chart.js) published on WordPress in the original; on GitHub Pages in this demo |
+
+**How the demo is connected:** a separate demo Google Sheet (fictional data only) publishes its Applications tab as CSV. The dashboard reads that CSV, the same architecture as the original solution. If the published sheet cannot be reached, the dashboard falls back to the copy in [`data/applications.csv`](data/applications.csv).
 
 ## Tracking Spreadsheet
 
@@ -76,17 +79,30 @@ Details: [docs/tracking-spreadsheet.md](docs/tracking-spreadsheet.md) · Demo fi
 
 The dashboard reads the spreadsheet every time it is opened or refreshed. Nothing is typed into the dashboard, so it always reflects the current data.
 
-- **Filters:** expected payment month, assigned consultant, application status, and search by client or application ID.
-- **Indicators:** applications in progress, completed and withdrawn, and total loan volume.
-- **Commissions by party:** received vs. pending for each consultant and for the firm.
-- **Charts:** received vs. pending by month, commission split by party, applications by status.
-- **Tables:** all applications with status and notes, summary by expected payment month, and commissions by party.
+Features that reproduce the original dashboard:
 
-| Charts | Tables |
+- **Header:** last update time and a **Refresh** button that reloads the spreadsheet data.
+- **Filters:** expected payment month, assigned consultant, search by client or application ID, and clear filters.
+- **Indicators:** applications in progress and applications completed.
+- **Commissions by party:** total, received and pending for each consultant and for the firm.
+- **Charts:** received and pending by month (side-by-side bars), and commissions by party (doughnut).
+- **Application detail table:** when a month is selected, it becomes a month detail view; it shows a message when no application matches the filters.
+- **Summary by month** with a total row, and **commissions by party — detail**.
+
+![Charts](docs/images/dashboard-charts.png)
+
+| Application detail | Summary tables |
 | --- | --- |
-| ![Charts](docs/images/dashboard-charts.png) | ![Tables](docs/images/dashboard-tables.png) |
+| ![Application detail](docs/images/dashboard-tables.png) | ![Summary tables](docs/images/dashboard-summary.png) |
 
-*The "Applications by status" chart was added in the demo version to make the pipeline easier to read.*
+### Demonstration extensions
+
+These items were added only to make the demo easier to explore. They are labeled "demo extension" on the dashboard and were not part of the original solution:
+
+- application status filter and the "Applications by status" chart;
+- "Withdrawn" and "Loan volume" indicators, and the Notes column in the detail table;
+- **Load spreadsheet** button, so visitors can test the dashboard with an edited copy of the demo file;
+- the detailed workflow stages (Submitted, Income Assessment, Document Collection, In Processing, Contract Signing, Withdrawn), which represent the steps I follow, simplified for the demo.
 
 ## Data Confidentiality
 
@@ -102,19 +118,24 @@ For this public version, all names, IDs, amounts, dates and commission parameter
 
 **Try it:** https://camilanacli.github.io/mortgage-financing-operations/
 
-1. Use the filters to explore the pipeline by month, consultant or status.
+The dashboard is connected to the demo Google Sheet. Every time the page is opened or **Refresh** is clicked, it reads the sheet's published data. When the sheet changes, the dashboard reflects it after Google updates the published copy, which usually takes a few minutes.
+
+**Explore it:**
+
+1. Use the filters to explore applications by expected payment month, consultant or status. Selecting a month turns the detail table into a month view.
 2. Download the [demo spreadsheet](spreadsheet/mortgage-operations-demo.xlsx) and open it in Google Sheets or Excel.
-3. Change something, for example set an application's status to *Completed* and add a completion date, or mark a payment as *Paid*.
+3. Change something, for example set an application's status to *Completed* and add a completion date, or mark a payment as *Paid*. The formulas recalculate the commission, split and expected payment month.
 4. Back on the dashboard, click **Load spreadsheet** and select your edited file. All indicators, charts and tables update from the new data.
 
-The dashboard can also read a CSV link published from Google Sheets, which is how the original system works: `…/mortgage-financing-operations/?csv=<published CSV link>`.
+To connect the dashboard to your own copy, publish its Applications tab as CSV and open `…/mortgage-financing-operations/?csv=<published CSV link>`.
 
 ### Repository structure
 
 ```
 mortgage-financing-operations/
 ├── index.html                          # demo dashboard (GitHub Pages)
-├── data/applications.csv               # export of the demo spreadsheet (read by the dashboard)
+├── dashboard/dashboard-embed.html      # same dashboard as a self-contained block (e.g., WordPress "Custom HTML")
+├── data/applications.csv               # copy of the demo data (fallback if the published sheet is unavailable)
 ├── spreadsheet/mortgage-operations-demo.xlsx
 └── docs/
     ├── workflow.md
