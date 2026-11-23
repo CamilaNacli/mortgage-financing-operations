@@ -25,7 +25,7 @@ I designed and built a tracking spreadsheet and dashboard for my mortgage financ
 ```mermaid
 flowchart TB
     A["A · Client intake & eligibility<br/>application added to the tracker at step 4"] --> B["B · Documentation & processing<br/>status and notes updated at each stage"] --> C["C · Close application<br/>& record completion"]
-    C ~~~ PAD[" "]
+    C ~~~ PAD[" <br/> <br/> <br/> <br/> <br/> "]
     style PAD fill:none,stroke:none
 ```
 
