@@ -10,44 +10,38 @@ The process has three phases. Each diagram below covers one phase, in the order 
 
 ```mermaid
 flowchart TB
-    subgraph R1[" "]
-        direction LR
-        S1["1 · Referral<br/>& contact"] --> S2["2 · Needs<br/>assessment"] --> S3["3 · Intake<br/>checklist"]
-    end
-    subgraph R2[" "]
-        direction LR
-        S4["4 · Application<br/>registration"] --> S5{{"5 · Income &<br/>eligibility"}}
-    end
-    R1 --> R2
-    style R1 fill:none,stroke:none
-    style R2 fill:none,stroke:none
+    S1["1 · Referral & contact"] --> S2["2 · Needs assessment"] --> S3["3 · Intake checklist"] --> S4["4 · Application registration<br/>added to the tracker"] --> S5{{"5 · Income & eligibility<br/>decided by the institution"}}
+    S5 -->|Proceed| P["Documentation<br/>phase B"]
+    S5 -->|Close application| X["Notify client"]
 ```
 
-Step 5 is decided by the financial institution. If the application can proceed, it moves to phase B. If not, I inform the client and the application is closed.
+The application enters the tracking spreadsheet at **step 4**. Step 5 is decided by the financial institution: if the application can proceed, it moves to documentation (phase B); if not, the application is closed and I notify the client.
 
 ### B · Documentation & application processing
 
 ```mermaid
-flowchart LR
-    S6["6 · Document<br/>collection"] --> S7["7 · Secure<br/>organization"] --> S8["8 · Processing<br/>& follow-up"]
+flowchart TB
+    S6["6 · Document collection"] --> S7["7 · Secure document organization"] --> S8["8 · Processing & follow-up<br/>until fund release"]
 ```
 
-Processing covers the remaining stages until completion: appraisal, contract signing, registry and fund release (see [Application statuses](#application-statuses)).
+Processing covers the remaining stages until completion: appraisal, contract signing, registry and fund release (see [Application statuses](#application-statuses)). The status, notes and expected completion month are updated in the spreadsheet at each stage.
 
 ### C · Completion & operational reporting
 
 ```mermaid
-flowchart LR
-    DONE(["Completed"]) --> S9[("9 · Tracking<br/>spreadsheet")] --> S10["10 · Dashboard<br/>& reporting"]
+flowchart TB
+    S9["9 · Close application<br/>& record completion"] --> S10["10 · Dashboard & reporting"]
 ```
 
-### How tracking supports every phase
+At completion I set the status to *Completed* and record the completion date; the expected payment month is then calculated, and the payment status is updated when the commission is paid.
 
-The spreadsheet is not a final step only: it is updated from step 4 onward, every time an application changes stage. The dashboard reads it directly.
+### How the spreadsheet feeds the dashboard
+
+The spreadsheet is updated from step 4 onward, every time an application changes stage. The dashboard reads it directly.
 
 ```mermaid
-flowchart LR
-    SH[("Tracking<br/>spreadsheet")] --> CSV["Published<br/>CSV"] --> DB["Dashboard"]
+flowchart TB
+    SH[("Tracking spreadsheet")] --> CSV["Published CSV"] --> DB["Dashboard"]
 ```
 
 ## Steps
@@ -61,8 +55,8 @@ flowchart LR
 | 5 | **Income & Eligibility Assessment** | Check the result of the income assessment and whether the application can proceed, according to the institution's criteria and decision. | Application status |
 | 6 | **Document Collection** | When the application can proceed, request and review the required documents. | Status, documents submitted date |
 | 7 | **Secure Document Organization** | Organize documents in Google Drive, one folder per client and application, with access limited to authorized people. | — (documents are never stored in the tracker) |
-| 8 | **Application Processing & Follow-up** | Follow pending items, additional requests and remaining steps until completion, keeping the client and other parties informed. | Status, notes, expected completion month, completion date |
-| 9 | **Operational Tracking** | Keep the tracking spreadsheet up to date as the single source of truth for every application. | All fields |
+| 8 | **Application Processing & Follow-up** | Follow pending items, additional requests and remaining steps until completion, keeping the client and other parties informed. | Status, notes, expected completion month |
+| 9 | **Close Application & Record Completion** | Close the application in the tracker once the process is completed. The spreadsheet is the single source of truth for every application from step 4 onward. | Status *Completed*, completion date, payment status |
 | 10 | **Dashboard & Reporting** | Use the dashboard connected to the spreadsheet to monitor the pipeline, commissions and expected payments. | — (reads the spreadsheet) |
 
 ## Application statuses

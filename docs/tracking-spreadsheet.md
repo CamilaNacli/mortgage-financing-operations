@@ -1,6 +1,11 @@
 # Tracking Spreadsheet
 
-The tracking spreadsheet is the single source of truth for every application. The dashboard only reads it. All calculations live in the spreadsheet, so the numbers are the same wherever they are viewed.
+The tracking spreadsheet is the single source of truth for every application. It is updated from the moment an application is registered (workflow step 4).
+
+**Who calculates what:**
+
+- **The spreadsheet calculates per application:** the commission rate and amount, the consultants' share and its split between consultants, the amount the firm retains, and the expected payment month. These values are stored in each row.
+- **The dashboard aggregates the current selection:** it reads those per-application values and adds them up for the filters chosen (month, consultant, status, search): totals received and pending, totals by party, totals by month, and the amount not yet scheduled. The dashboard does not recalculate commissions.
 
 Demo file: [download mortgage-operations-demo.xlsx](https://raw.githubusercontent.com/CamilaNacli/mortgage-financing-operations/main/spreadsheet/mortgage-operations-demo.xlsx). It opens in Google Sheets or Excel, and every value in it is fictional.
 
@@ -44,7 +49,7 @@ Demo file: [download mortgage-operations-demo.xlsx](https://raw.githubuserconten
 | Consultant Share % / Amount | Share of the firm commission paid to the consultant(s) |
 | Consultant A / Consultant B Receives | Full share, or split equally when two consultants are assigned |
 | Firm Retains | Commission minus the consultants' share |
-| Expected Payment Month | Month after the completion date |
+| Expected Payment Month | Month after the completion date; empty while the application is in progress (shown as *Not scheduled* on the dashboard) |
 
 ## Why the monthly tier matters
 
