@@ -20,22 +20,25 @@
 #mfo{--bg:#f4f6f9;--card:#fff;--ink:#1b2433;--muted:#5f6b7d;--line:#e3e8ef;--navy:#1f3a5f;--green:#2f7d4e;--amber:#b7791f;--violet:#6d5fd0;
   background:var(--bg);color:var(--ink);font:14px/1.5 Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;text-align:left}
 #mfo *{box-sizing:border-box}
-#mfo .wrap{max-width:1180px;margin:0 auto;padding:20px 16px 32px}
-#mfo .notice{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;background:#fff8e1;border:1px solid #efd98f;color:#6b4e0e;border-radius:10px;padding:10px 14px;font-size:13px;margin-bottom:16px}
-#mfo .notice a{color:#6b4e0e;font-weight:600;white-space:nowrap}
+#mfo .wrap{max-width:1180px;margin:0 auto;padding:18px 16px 32px}
+#mfo .notice{display:flex;gap:6px 14px;align-items:baseline;justify-content:space-between;flex-wrap:wrap;color:var(--muted);font-size:12px;padding:0 2px 10px;margin-bottom:12px;border-bottom:1px solid var(--line)}
+#mfo .notice b{color:var(--ink);font-weight:600}
+#mfo .notice a{color:var(--navy);font-weight:600;white-space:nowrap}
 #mfo .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
 #mfo header{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
 #mfo h1{font-size:22px;margin:0;line-height:1.25;color:var(--ink);font-family:inherit;font-weight:700}
 #mfo .sub{color:var(--muted);font-size:13px;margin-top:2px}
-#mfo .actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+#mfo .actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 #mfo .btn{background:var(--navy);color:#fff;border:1px solid var(--navy);border-radius:8px;padding:8px 14px;font:600 13px Inter,sans-serif;cursor:pointer;line-height:1.2}
 #mfo .btn.ghost{background:#fff;color:var(--navy);border-color:var(--line)}
-#mfo .btn:focus-visible,#mfo select:focus-visible,#mfo input:focus-visible{outline:2px solid #7aa2d6;outline-offset:1px}
+#mfo .linkbtn{background:none;border:0;padding:4px 2px;color:var(--muted);font:500 12.5px Inter,sans-serif;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+#mfo .linkbtn:hover{color:var(--navy)}
+#mfo button:focus-visible,#mfo select:focus-visible,#mfo input:focus-visible,#mfo a:focus-visible{outline:2px solid #7aa2d6;outline-offset:2px}
 #mfo .filters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) auto;gap:12px;align-items:end}
 #mfo label{display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-bottom:4px;white-space:nowrap}
 #mfo select,#mfo input[type=search]{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font:13px Inter,sans-serif;background:#fff;color:var(--ink);height:38px}
 #mfo .meta{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:10px}
-#mfo .err{color:#a33a30;font-size:13px;margin-top:8px}
+#mfo .err{color:#a33a30;background:#fdf0ee;border:1px solid #f3c7c1;border-radius:8px;padding:8px 10px;font-size:13px;margin-top:10px}
 #mfo .err:empty{display:none}
 #mfo h2{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin:28px 0 10px;color:var(--navy);font-family:inherit;line-height:1.3}
 #mfo h2 .scope{text-transform:none;letter-spacing:0;color:var(--muted);font-weight:400}
@@ -46,7 +49,8 @@
 #mfo .kpis{grid-template-columns:repeat(3,minmax(0,1fr))}
 #mfo .parties{grid-template-columns:repeat(3,minmax(0,1fr))}
 #mfo .charts{grid-template-columns:2fr 1fr}
-#mfo .tables{grid-template-columns:1fr 1fr}
+#mfo .tables{grid-template-columns:1.25fr 1fr}
+#mfo .statusgrid{grid-template-columns:2fr 1fr;align-items:start}
 #mfo .kpi{border-left:4px solid var(--navy);padding:14px 16px}
 #mfo .kpi .lbl{font-size:11px;font-weight:600;text-transform:uppercase;color:var(--muted);letter-spacing:.04em}
 #mfo .kpi .val{font-size:28px;font-weight:700;margin:2px 0 0;font-variant-numeric:tabular-nums}
@@ -62,24 +66,46 @@
 #mfo th{position:sticky;top:0;z-index:1;background:#f7f9fc;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);text-align:left;padding:8px 10px;border:0;border-bottom:1px solid var(--line);white-space:nowrap}
 #mfo td{padding:8px 10px;border:0;border-bottom:1px solid var(--line);vertical-align:top}
 #mfo td.nowrap{white-space:nowrap}
-#mfo td.notes{min-width:150px;max-width:240px;color:var(--muted);font-size:12.5px}
-#mfo td.resp{min-width:110px;max-width:150px}
-#mfo td .badge{white-space:normal;line-height:1.35}
+#mfo td.notes{min-width:125px;max-width:220px;color:var(--muted);font-size:12.5px}
+#mfo td.resp{min-width:115px;max-width:165px}
+#mfo .tbl.tall th{white-space:normal;vertical-align:bottom;line-height:1.3}
 #mfo td.num,#mfo th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 #mfo tr.total td{font-weight:700;background:#f1f4f8}
-#mfo .badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11.5px;font-weight:600;background:#eef2f7;color:var(--navy);white-space:nowrap}
+#mfo tr.unsched td{color:#7a5410;background:#fffaf0;font-weight:600}
+#mfo .badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11.5px;font-weight:600;background:#eef2f7;color:var(--navy);line-height:1.35}
 #mfo .b-done{background:#e3f2e8;color:var(--green)}
 #mfo .b-paid{background:#e3f2e8;color:var(--green)} #mfo .b-pend{background:#fbf0d9;color:#8a5d0e}
 #mfo .ext{color:var(--violet);font-weight:700;margin-left:3px;cursor:help}
 #mfo .empty{display:none;padding:16px 10px;color:var(--muted);text-align:center}
+/* compact list for narrow screens */
+#mfo .mlist{display:none;list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+#mfo .mlist li{border-bottom:1px solid var(--line)}
+#mfo .mlist li:last-child{border-bottom:0}
+#mfo .mhead{position:relative;width:100%;display:grid;grid-template-columns:auto 1fr auto auto;gap:8px;align-items:center;background:#fff;border:0;padding:10px 12px;text-align:left;font:inherit;color:inherit;cursor:pointer}
+#mfo .mhead .mid{font-weight:600;white-space:nowrap}
+#mfo .mhead .st{justify-self:start;min-width:0}
+#mfo .mhead .chev{color:var(--muted);transition:transform .15s}
+#mfo .mhead[aria-expanded="true"] .chev{transform:rotate(180deg)}
+#mfo .mbody{margin:0;padding:4px 12px 12px;background:#fafbfd;display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:13px}
+#mfo .mbody[hidden]{display:none}
+#mfo .mbody dt{color:var(--muted)}
+#mfo .mbody dd{margin:0;text-align:right;font-variant-numeric:tabular-nums}
+#mfo .mbody dd.txt{text-align:left;grid-column:1 / -1;color:var(--muted)}
+#mfo .stlist{list-style:none;margin:0;padding:0;font-size:13px}
+#mfo .stlist li{display:flex;justify-content:space-between;gap:10px;padding:5px 2px;border-bottom:1px solid var(--line)}
+#mfo .stlist li span:last-child{font-weight:600;font-variant-numeric:tabular-nums}
 #mfo .foot{margin-top:28px;padding-top:14px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:12px}
 #mfo .foot a{color:var(--navy);font-weight:600}
 #mfo input[type=file]{display:none}
 @media (max-width: 900px){
   #mfo .filters{grid-template-columns:1fr 1fr}
   #mfo .filters .clear{grid-column:1 / -1}
-  #mfo .charts,#mfo .tables{grid-template-columns:1fr}
+  #mfo .charts,#mfo .tables,#mfo .statusgrid{grid-template-columns:1fr}
   #mfo .parties{grid-template-columns:1fr}
+}
+@media (max-width: 900px){
+  #mfo .tbl.tall{display:none}
+  #mfo .mlist{display:block}
 }
 @media (max-width: 560px){
   #mfo .wrap{padding:14px 12px 24px}
@@ -95,18 +121,18 @@
 <div id="mfo" data-csv="https://docs.google.com/spreadsheets/d/e/2PACX-1vRCU6FVhB-oC9PDeL9j69t29MCYOBJ37h-UcUptC727a3zjquXazODRHsdsjlmw2YDfkva6NWO06lMg/pub?gid=505731897&amp;single=true&amp;output=csv" data-fallback="data/applications.csv">
 <div class="wrap">
   <div class="notice">
-    <span><b>Professional Portfolio Demonstration.</b> Recreated version of a dashboard I developed and use in a real professional environment. All data is fictional. <span class="ext">◆</span> marks items added only for this demo.</span>
+    <span><b>Portfolio demonstration</b> · recreated from a dashboard I developed and use professionally · all data is fictional · <span class="ext" style="margin:0">◆</span> = added only for this demo</span>
     <a href="https://github.com/CamilaNacli/mortgage-financing-operations" target="_blank" rel="noopener">About this project ↗</a>
   </div>
 
   <header>
     <div>
       <h1>Mortgage Financing Operations</h1>
-      <div class="sub">Monthly tracking of applications, commissions and expected payments</div>
+      <div class="sub">Monthly tracking of applications, commissions and expected payments · amounts in USD</div>
     </div>
     <div class="actions">
-      <button class="btn ghost" data-id="btnFile" title="Demo extension: load an edited copy of the demo spreadsheet (.xlsx or .csv)">Load your own file <span class="ext">◆</span></button>
-      <button class="btn" data-id="btnRefresh" title="Reload data from the tracking spreadsheet">↻ Refresh</button>
+      <button class="linkbtn" data-id="btnFile" title="Demo extension: load an edited copy of the demo spreadsheet (.xlsx or .csv)">Load your own file ◆</button>
+      <button class="btn" data-id="btnRefresh" title="Reload data from the demo tracking spreadsheet">↻ Refresh</button>
       <input type="file" data-id="fileInput" accept=".csv,.xlsx" aria-label="Spreadsheet file">
     </div>
   </header>
@@ -127,20 +153,20 @@
   <div class="grid kpis">
     <div class="card kpi"><div class="lbl">In progress</div><div class="val" data-id="kOpen">–</div><div class="note">applications being processed</div></div>
     <div class="card kpi" style="border-left-color:var(--green)"><div class="lbl">Completed</div><div class="val" data-id="kDone">–</div><div class="note">applications completed</div></div>
-    <div class="card kpi" style="border-left-color:var(--violet)"><div class="lbl">Loan volume <span class="ext" title="Demo extension">◆</span></div><div class="val" data-id="kVol">–</div><div class="note">total financed amount</div></div>
+    <div class="card kpi" style="border-left-color:var(--violet)"><div class="lbl">Total loan amount tracked <span class="ext" title="Demo extension">◆</span></div><div class="val" data-id="kVol">–</div><div class="note">USD, sum of loan amounts</div></div>
   </div>
 
-  <h2>Commissions by party</h2>
+  <h2>Commissions by party <span class="scope">— USD</span></h2>
   <div class="grid parties" data-id="partyCards"></div>
   <div class="grid charts" style="margin-top:12px">
     <div class="card">
-      <h3>Consultant commissions by expected payment month</h3>
-      <p class="hint">Received and pending, for applications that already have an expected payment month. Pending amounts in the cards above also include applications still in progress.</p>
-      <div class="chart"><canvas data-id="chMonth" aria-label="Consultant commissions by month"></canvas><div class="nodata" data-id="ndMonth">No data for the selected filters</div></div>
+      <h3>Consultant commissions by expected payment month (USD)</h3>
+      <p class="hint">Received and pending, for applications that already have an expected payment month. Applications still in progress have no payment month yet; see "Not scheduled" in the summary below.</p>
+      <div class="chart"><canvas data-id="chMonth" aria-label="Consultant commissions by month"></canvas><div class="nodata" data-id="ndMonth">No scheduled payments for the selected filters</div></div>
     </div>
     <div class="card">
-      <h3>Split by party</h3>
-      <p class="hint">Total commissions (received + pending).</p>
+      <h3>Split by party (USD)</h3>
+      <p class="hint">Total commissions, received + pending.</p>
       <div class="chart"><canvas data-id="chParty" aria-label="Commission split by party"></canvas><div class="nodata" data-id="ndParty">No data for the selected filters</div></div>
     </div>
   </div>
@@ -148,21 +174,22 @@
   <h2 data-id="detailTitle">Applications — detail</h2>
   <div class="card" style="padding:12px">
     <div class="tbl tall"><table data-id="tDetail"><thead><tr>
-      <th>Application ID</th><th>Client</th><th class="num">Loan amount</th><th>Application status</th><th>Assigned to</th><th class="num">Amount to receive</th><th class="num">Firm receives</th><th>Payment</th><th>Notes <span class="ext" title="Demo extension">◆</span></th>
-    </tr></thead><tbody></tbody></table>
-    <div class="empty" data-id="detailEmpty">No applications match the selected filters.</div></div>
+      <th>Application ID</th><th>Client</th><th class="num">Loan amount (USD)</th><th>Application status</th><th>Assigned to</th><th class="num">Consultant commission</th><th class="num">Firm receives</th><th>Payment</th><th>Notes <span class="ext" title="Demo extension">◆</span></th>
+    </tr></thead><tbody></tbody></table></div>
+    <ul class="mlist" data-id="mList" aria-label="Applications"></ul>
+    <div class="empty" data-id="detailEmpty">No applications match the selected filters.</div>
   </div>
 
   <div class="grid tables" style="margin-top:12px">
     <div class="card">
-      <h3>Summary by month</h3>
+      <h3>Summary by month (USD)</h3>
       <p class="hint">Consultant commissions by expected payment month.</p>
       <div class="tbl"><table data-id="tMonth"><thead><tr>
         <th>Month</th><th class="num">Apps</th><th class="num">Received</th><th class="num">Pending</th><th class="num">Total</th><th class="num">Firm</th>
       </tr></thead><tbody></tbody></table></div>
     </div>
     <div class="card">
-      <h3>Commissions by party — detail</h3>
+      <h3>Commissions by party — detail (USD)</h3>
       <p class="hint">All applications in the current selection.</p>
       <div class="tbl"><table data-id="tParty"><thead><tr>
         <th>Party</th><th class="num">Apps</th><th class="num">Received</th><th class="num">Pending</th><th class="num">Total</th>
@@ -171,8 +198,9 @@
   </div>
 
   <h2>Applications by status <span class="ext" title="Demo extension">◆</span></h2>
-  <div class="card">
-    <div class="chart" style="height:320px"><canvas data-id="chStatus" aria-label="Applications by status"></canvas><div class="nodata" data-id="ndStatus">No data for the selected filters</div></div>
+  <div class="grid statusgrid">
+    <div class="card"><div class="chart" style="height:320px"><canvas data-id="chStatus" aria-label="Applications by status"></canvas><div class="nodata" data-id="ndStatus">No data for the selected filters</div></div></div>
+    <div class="card"><h3>Count by status</h3><p class="hint">Applications in the current selection.</p><ul class="stlist" data-id="statusList"></ul></div>
   </div>
 
   <div class="foot">
@@ -190,11 +218,13 @@
   const DEFAULT_CSV = root.getAttribute('data-csv');
   const FALLBACK = root.getAttribute('data-fallback');
   const CSV_URL = params.get('csv') || DEFAULT_CSV;
-  let RAW = [], charts = {};
+  const NONE = '__none__';
+  let RAW = [], charts = {}, MODE = 'demo';
 
   const COL = {id:'Application ID', client:'Client', type:'Transaction Type', loan:'Loan Amount', status:'Application Status',
     resp:'Assigned To', share:'Consultant Share Amount', a:'Consultant A Receives', b:'Consultant B Receives',
     firm:'Firm Retains', month:'Expected Payment Month', pay:'Payment Status', notes:'Notes'};
+  const REQUIRED = ['Application ID','Client','Loan Amount','Application Status','Assigned To','Consultant Share Amount','Consultant A Receives','Consultant B Receives','Firm Retains','Expected Payment Month','Payment Status'];
   const STATUS_ORDER = ['Submitted','Awaiting Insurance','Application Sent','Under Review','Property Appraisal','Application Under Review','Contract Signing','In Registry Recording','Registered - Awaiting Fund Release','Funds Released','Completed'];
   const PCOL = {'Consultant A':'#1f3a5f','Consultant B':'#6d5fd0','Firm':'#2f7d4e'};
 
@@ -210,6 +240,7 @@
   const usd = n => n.toLocaleString('en-US',{style:'currency',currency:'USD',minimumFractionDigits:2});
   const usdK = n => n >= 1e6 ? '$'+(n/1e6).toFixed(2)+'M' : n >= 1e3 ? '$'+(n/1e3).toFixed(0)+'K' : usd(n);
   function monthLabel(m){
+    if (m === NONE) return 'Not scheduled';
     const mt = String(m||'').trim().match(/^(\d{4})-(\d{2})/);
     if (!mt) return m ? String(m) : 'Not scheduled';
     return new Date(Date.UTC(+mt[1], +mt[2]-1, 1)).toLocaleString('en-US',{month:'short',year:'numeric',timeZone:'UTC'});
@@ -226,31 +257,53 @@
       month:String(r[COL.month]??'').trim().slice(0,7), pay:String(r[COL.pay]??'').trim(), notes:String(r[COL.notes]??'').trim()
     })).filter(r => r.id);
   }
-  function setData(rows, label){
+  function setMode(mode){
+    MODE = mode;
+    const b = $('btnRefresh');
+    if (mode === 'file'){ b.textContent = '← Return to demo data'; b.title = 'Discard the loaded file and reload the published demo spreadsheet'; }
+    else { b.textContent = '↻ Refresh'; b.title = 'Reload data from the demo tracking spreadsheet'; }
+  }
+  function setData(rows, label, mode){
     RAW = normalize(rows);
-    $('errorBox').textContent = RAW.length ? '' : 'No applications found. Check that the file has an "Application ID" column (use the demo spreadsheet or a CSV export of its Applications tab).';
+    $('errorBox').textContent = RAW.length ? '' : 'No applications found in this data.';
     $('lastUpdated').textContent = 'Updated ' + new Date().toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'});
     $('sourceInfo').textContent = 'Data source: ' + label + ' · ' + RAW.length + ' applications';
+    setMode(mode);
     populateFilters(); applyFilters();
+  }
+  function missingColumns(fields){
+    const have = new Set((fields||[]).map(f => String(f).trim()));
+    return REQUIRED.filter(c => !have.has(c));
   }
   function fetchCsv(src, label, onFail){
     const url = src + (src.includes('?') ? '&' : '?') + 'cb=' + Date.now();
     Papa.parse(url, {download:true, header:true, skipEmptyLines:true,
-      complete: res => { const rows = (res.data || []).filter(r => String(r[COL.id]||'').trim()); if (!rows.length && onFail) return onFail(); setData(rows, label); },
+      complete: res => { const rows = (res.data || []).filter(r => String(r[COL.id]||'').trim()); if ((!rows.length || missingColumns(res.meta.fields).length) && onFail) return onFail(); setData(rows, label, 'demo'); },
       error: () => onFail ? onFail() : failMsg()
     });
   }
-  function failMsg(){ $('errorBox').textContent = 'Could not load the data. Try Refresh, or use "Load your own file" with the demo spreadsheet.'; $('sourceInfo').textContent = 'No data loaded'; }
+  function failMsg(){ $('errorBox').textContent = 'Could not load the demo data. Please try Refresh again in a moment.'; if (!RAW.length) $('sourceInfo').textContent = 'No data loaded'; }
   function loadData(){
     $('errorBox').textContent = '';
-    $('sourceInfo').textContent = 'Loading data…';
+    if (!RAW.length) $('sourceInfo').textContent = 'Loading data…';
     const label = CSV_URL === DEFAULT_CSV ? 'demo Google Sheet (published CSV)' : 'custom CSV link';
     const fb = (CSV_URL === DEFAULT_CSV && FALLBACK) ? () => fetchCsv(FALLBACK, 'repository copy of the demo data', null) : null;
     fetchCsv(CSV_URL, label, fb || failMsg);
   }
+  function rejectFile(name, missing){
+    $('errorBox').textContent = '"' + name + '" was not loaded. Missing column' + (missing.length > 1 ? 's' : '') + ': ' + missing.join(', ') + '. The current view was kept.';
+  }
+  function acceptFile(rows, fields, name){
+    const missing = missingColumns(fields);
+    if (missing.length) return rejectFile(name, missing);
+    const valid = rows.filter(r => String(r[COL.id]||'').trim());
+    if (!valid.length) { $('errorBox').textContent = '"' + name + '" has no applications. The current view was kept.'; return; }
+    setData(valid, 'your file "' + name + '" (not the published demo data)', 'file');
+  }
   function loadFile(file){
+    $('errorBox').textContent = '';
     if (file.name.toLowerCase().endsWith('.csv')){
-      Papa.parse(file, {header:true, skipEmptyLines:true, complete: res => setData(res.data||[], 'your file "'+file.name+'"')});
+      Papa.parse(file, {header:true, skipEmptyLines:true, complete: res => acceptFile(res.data||[], res.meta.fields, file.name)});
       return;
     }
     const fr = new FileReader();
@@ -258,8 +311,9 @@
       try{
         const wb = XLSX.read(new Uint8Array(e.target.result), {type:'array', cellDates:true});
         const ws = wb.Sheets['Applications'] || wb.Sheets[wb.SheetNames[0]];
-        setData(XLSX.utils.sheet_to_json(ws, {raw:false, defval:'', dateNF:'yyyy-mm-dd'}), 'your file "'+file.name+'"');
-      }catch(err){ $('errorBox').textContent = 'Could not read this file. Please use the demo .xlsx or a .csv export of its Applications tab.'; }
+        const header = (XLSX.utils.sheet_to_json(ws, {header:1, range:0})[0] || []);
+        acceptFile(XLSX.utils.sheet_to_json(ws, {raw:false, defval:'', dateNF:'yyyy-mm-dd'}), header, file.name);
+      }catch(err){ $('errorBox').textContent = 'Could not read "' + file.name + '". Please use the demo .xlsx or a .csv export of its Applications tab. The current view was kept.'; }
     };
     fr.readAsArrayBuffer(file);
   }
@@ -270,22 +324,25 @@
     if (values.includes(prev)) el.value = prev;
   }
   function populateFilters(){
-    fillSelect('fMonth', [...new Set(RAW.map(r=>r.month).filter(Boolean))].sort((x,y)=>monthKey(x)-monthKey(y)), monthLabel);
+    const months = [...new Set(RAW.map(r=>r.month).filter(Boolean))].sort((x,y)=>monthKey(x)-monthKey(y));
+    if (RAW.some(r => !r.month)) months.push(NONE);
+    fillSelect('fMonth', months, monthLabel);
     fillSelect('fResp', [...new Set(RAW.map(r=>r.resp).filter(Boolean))].sort());
     const rank = s => { const i = STATUS_ORDER.indexOf(s); return i < 0 ? 99 : i; };
     fillSelect('fStatus', [...new Set(RAW.map(r=>r.status).filter(Boolean))].sort((x,y)=>rank(x)-rank(y)));
   }
   function filtered(){
     const m = $('fMonth').value, r = $('fResp').value, s = $('fStatus').value, q = $('fSearch').value.trim().toLowerCase();
-    return RAW.filter(x => (!m || x.month===m) && (!r || x.resp===r) && (!s || x.status===s) &&
+    return RAW.filter(x => (!m || (m === NONE ? !x.month : x.month===m)) && (!r || x.resp===r) && (!s || x.status===s) &&
       (!q || x.client.toLowerCase().includes(q) || x.id.toLowerCase().includes(q)));
   }
   function applyFilters(){
     const rows = filtered(), m = $('fMonth').value;
     const active = ['fMonth','fResp','fStatus','fSearch'].filter(id => $(id).value.trim()).length;
-    $('scopeLbl').textContent = (m ? '— expected payment in ' + monthLabel(m) : '— all months') + (active ? ' · ' + rows.length + ' of ' + RAW.length + ' applications' : '');
-    $('detailTitle').textContent = m ? 'Month detail — ' + monthLabel(m) : 'Applications — detail';
-    renderKpis(rows); renderParties(rows); renderCharts(rows); renderDetail(rows); renderMonthTable(rows); renderPartyTable(rows);
+    const scope = m === NONE ? '— no expected payment month yet' : m ? '— expected payment in ' + monthLabel(m) : '— all months';
+    $('scopeLbl').textContent = scope + (active ? ' · ' + rows.length + ' of ' + RAW.length + ' applications' : '');
+    $('detailTitle').textContent = m === NONE ? 'Applications — not scheduled' : m ? 'Month detail — ' + monthLabel(m) : 'Applications — detail';
+    renderKpis(rows); renderParties(rows); renderCharts(rows); renderDetail(rows); renderMonthTable(rows); renderPartyTable(rows); renderStatusList(rows);
   }
   function partyTotals(rows){
     const P = {'Consultant A':{k:'a',paid:0,pend:0,n:0}, 'Consultant B':{k:'b',paid:0,pend:0,n:0}, 'Firm':{k:'firm',paid:0,pend:0,n:0}};
@@ -319,18 +376,32 @@
     charts.p = new Chart($('chParty'), {type:'doughnut', data:{labels:names, datasets:[{data:vals, backgroundColor:names.map(n=>PCOL[n]), borderWidth:2, borderColor:'#fff'}]},
       options:{maintainAspectRatio:false, cutout:'62%', plugins:{legend:{position:'bottom', labels:{boxWidth:12}}, tooltip:{callbacks:{label:c=>c.label+': '+usd(c.raw)}}}}});
     showNoData('ndParty', !vals.some(v=>v>0));
-    const st = STATUS_ORDER.concat([...new Set(rows.map(r=>r.status))].filter(s=>s && !STATUS_ORDER.includes(s)));
+    const st = statusOrder(rows);
     charts.s = new Chart($('chStatus'), {type:'bar', data:{labels:st, datasets:[{label:'Applications', data:st.map(s => rows.filter(r=>r.status===s).length),
         backgroundColor:st.map(s=>s==='Completed'?'#2f7d4e':'#1f3a5f'), borderRadius:4, maxBarThickness:22}]},
       options:{indexAxis:'y', maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{x:{beginAtZero:true, ticks:{precision:0}}, y:{grid:{display:false}}}}});
     showNoData('ndStatus', !rows.length);
   }
+  const statusOrder = rows => STATUS_ORDER.concat([...new Set(rows.map(r=>r.status))].filter(s=>s && !STATUS_ORDER.includes(s)));
   function statusBadge(s){ return '<span class="badge '+(s==='Completed'?'b-done':'')+'">'+esc(s)+'</span>'; }
   function payBadge(p){ return '<span class="badge '+(/^paid$/i.test(p)?'b-paid':/^pending$/i.test(p)?'b-pend':'')+'">'+esc(p)+'</span>'; }
   function renderDetail(rows){
     $('detailEmpty').style.display = rows.length ? 'none' : 'block';
     $('tDetail').tBodies[0].innerHTML = rows.map(r => '<tr><td class="nowrap">'+esc(r.id)+'</td><td class="nowrap">'+esc(r.client)+'</td><td class="num">'+usd(r.loan)+'</td><td style="min-width:130px">'+statusBadge(r.status)+'</td><td class="resp">'+esc(r.resp)+
       '</td><td class="num">'+usd(r.share)+'</td><td class="num">'+usd(r.firm)+'</td><td>'+payBadge(r.pay)+'</td><td class="notes">'+esc(r.notes)+'</td></tr>').join('');
+    $('mList').innerHTML = rows.map((r,i) => { const id = 'mfo-app-'+i;
+      return '<li><button type="button" class="mhead" aria-expanded="false" aria-controls="'+id+'">'+
+        '<span class="mid">'+esc(r.id)+'</span><span class="st">'+statusBadge(r.status)+'</span>'+payBadge(r.pay)+'<span class="chev" aria-hidden="true">▾</span>'+
+        '<span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Show details</span></button>'+
+        '<dl class="mbody" id="'+id+'" hidden>'+
+        '<dt>Client</dt><dd>'+esc(r.client)+'</dd>'+
+        '<dt>Loan amount</dt><dd>'+usd(r.loan)+'</dd>'+
+        '<dt>Assigned to</dt><dd>'+esc(r.resp)+'</dd>'+
+        '<dt>Consultant commission</dt><dd>'+usd(r.share)+'</dd>'+
+        '<dt>Firm receives</dt><dd>'+usd(r.firm)+'</dd>'+
+        '<dt>Expected payment</dt><dd>'+monthLabel(r.month)+'</dd>'+
+        (r.notes ? '<dt>Notes ◆</dt><dd class="txt">'+esc(r.notes)+'</dd>' : '')+
+        '</dl></li>'; }).join('');
   }
   function renderMonthTable(rows){
     const byM = {};
@@ -338,20 +409,34 @@
     const keys = Object.keys(byM).sort((x,y)=>monthKey(x)-monthKey(y)), T = {n:0,paid:0,pend:0,firm:0};
     const body = keys.map(k => { const m = byM[k]; Object.keys(T).forEach(f=>T[f]+=m[f]);
       return '<tr><td class="nowrap">'+monthLabel(k)+'</td><td class="num">'+m.n+'</td><td class="num">'+usd(m.paid)+'</td><td class="num">'+usd(m.pend)+'</td><td class="num">'+usd(m.paid+m.pend)+'</td><td class="num">'+usd(m.firm)+'</td></tr>'; }).join('');
-    $('tMonth').tBodies[0].innerHTML = body + '<tr class="total"><td>Total</td><td class="num">'+T.n+'</td><td class="num">'+usd(T.paid)+'</td><td class="num">'+usd(T.pend)+'</td><td class="num">'+usd(T.paid+T.pend)+'</td><td class="num">'+usd(T.firm)+'</td></tr>';
+    const un = rows.filter(r => !r.month), U = {n:un.length, pend:un.filter(isPend).reduce((s,r)=>s+r.share,0), firm:un.reduce((s,r)=>s+r.firm,0)};
+    $('tMonth').tBodies[0].innerHTML = body +
+      '<tr class="total"><td>Total with an expected payment month</td><td class="num">'+T.n+'</td><td class="num">'+usd(T.paid)+'</td><td class="num">'+usd(T.pend)+'</td><td class="num">'+usd(T.paid+T.pend)+'</td><td class="num">'+usd(T.firm)+'</td></tr>' +
+      '<tr class="unsched" data-id="unschedRow"><td>Not scheduled (no payment month yet)</td><td class="num">'+U.n+'</td><td class="num">—</td><td class="num">'+usd(U.pend)+'</td><td class="num">'+usd(U.pend)+'</td><td class="num">'+usd(U.firm)+'</td></tr>';
   }
   function renderPartyTable(rows){
     $('tParty').tBodies[0].innerHTML = Object.entries(partyTotals(rows)).map(([n,p]) =>
       '<tr><td class="nowrap">'+n+'</td><td class="num">'+p.n+'</td><td class="num">'+usd(p.paid)+'</td><td class="num">'+usd(p.pend)+'</td><td class="num">'+usd(p.paid+p.pend)+'</td></tr>').join('');
   }
+  function renderStatusList(rows){
+    const st = statusOrder(rows);
+    $('statusList').innerHTML = st.map(s => '<li><span>'+esc(s)+'</span><span>'+rows.filter(r=>r.status===s).length+'</span></li>').join('') +
+      '<li style="border-bottom:0"><span><b>Total</b></span><span>'+rows.length+'</span></li>';
+  }
 
+  $('mList').addEventListener('click', e => {
+    const b = e.target.closest('.mhead'); if (!b) return;
+    const open = b.getAttribute('aria-expanded') === 'true';
+    b.setAttribute('aria-expanded', String(!open));
+    document.getElementById(b.getAttribute('aria-controls')).hidden = open;
+  });
   ['fMonth','fResp','fStatus'].forEach(id => $(id).addEventListener('change', applyFilters));
   $('fSearch').addEventListener('input', applyFilters);
   $('btnClear').onclick = () => { ['fMonth','fResp','fStatus','fSearch'].forEach(id => $(id).value=''); applyFilters(); };
   $('btnRefresh').onclick = loadData;
   $('btnFile').onclick = () => $('fileInput').click();
   $('fileInput').onchange = e => { if (e.target.files[0]) loadFile(e.target.files[0]); e.target.value=''; };
-  window.MFO = {setData, applyFilters, get rows(){return RAW;}}; // used for automated checks
+  window.MFO = {setData, applyFilters, get rows(){return RAW;}, get mode(){return MODE;}}; // used for automated checks
   loadData();
 })();
 </script>
