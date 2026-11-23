@@ -21,7 +21,7 @@ This repository is a **demonstration**. It reproduces the structure and logic of
 | Commission tiers, rates and split | Illustrative values; real contract terms are not published |
 | Team members | Replaced by `Consultant A` and `Consultant B` |
 | Links to the original spreadsheet, dashboard or Drive folders | Not included |
-| Connections to the original data | None. The demo dashboard only reads the demo file in this repository |
+| Connections to the original data | None. The demo dashboard only reads a separate demo Google Sheet (fictional data, published as CSV) and, as a fallback, the demo file in this repository |
 | Financial institution internal procedures | Not included |
 | Screenshots | Taken from the demo dashboard (fictional data only) |
 

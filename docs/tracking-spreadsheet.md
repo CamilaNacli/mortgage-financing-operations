@@ -10,7 +10,7 @@ Demo file: [`spreadsheet/mortgage-operations-demo.xlsx`](../spreadsheet/mortgage
 | --- | --- |
 | **Read Me** | How the workbook is organized, business rules, assumptions and color legend |
 | **Applications** | One row per application: inputs plus automatic calculations |
-| **Commission Settings** | Commission tiers, caps, fixed fee and split settings used by the formulas (yellow cells are inputs) |
+| **Commission Table** | Commission tiers, caps, fixed fee and split settings used by the formulas (yellow cells are inputs) |
 | **Monthly Summary** | Totals received and pending, current-month production, application counts and a 12-month forecast of pending payments |
 
 ## Applications tab: fields
