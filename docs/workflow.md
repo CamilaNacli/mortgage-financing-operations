@@ -38,16 +38,20 @@ flowchart TD
 | 9 | **Operational Tracking** | Keep the tracking spreadsheet up to date as the single source of truth for every application. | All fields |
 | 10 | **Dashboard & Reporting** | Use the dashboard connected to the spreadsheet to monitor the pipeline, commissions and expected payments. | — (reads the spreadsheet) |
 
-## Application statuses used in the demo
+## Application statuses
 
-| Status | Meaning |
-| --- | --- |
-| Submitted | Application registered on the lender's portal |
-| Income Assessment | Waiting for the institution's income and eligibility result |
-| Document Collection | Collecting and reviewing the client's documents |
-| In Processing | Application under processing by the institution (appraisal, additional requests) |
-| Contract Signing | Waiting for contract signing |
-| Completed | Financing completed |
-| Withdrawn | Client withdrew or the application could not proceed |
+The tracking spreadsheet uses a drop-down list with the stages an application goes through, in order. These are the same stages used in the original solution, translated into English:
 
-*The status names are a simplified, English version of the stages above, created for the demonstration.*
+| # | Status | Meaning |
+| --- | --- | --- |
+| 1 | Submitted | Application registered on the lender's portal |
+| 2 | Awaiting Insurance | Waiting for the insurance required for the financing |
+| 3 | Application Sent | Application sent to the financial institution |
+| 4 | Under Review | Under analysis by the institution (e.g., income and eligibility) |
+| 5 | Property Appraisal | Property appraisal requested or scheduled |
+| 6 | Application Under Review | Final review of the application by the institution |
+| 7 | Contract Signing | Contract ready for signing |
+| 8 | In Registry Recording | Contract being recorded at the property registry office |
+| 9 | Registered - Awaiting Fund Release | Contract registered; waiting for the funds to be released |
+| 10 | Funds Released | Funds released by the institution |
+| 11 | Completed | Process completed |

@@ -26,10 +26,10 @@ Demo file: [`spreadsheet/mortgage-operations-demo.xlsx`](../spreadsheet/mortgage
 | Transaction Type | Drop-down: Standard Mortgage, Affordable Housing Program, Home Equity Loan |
 | Financing Program | Drop-down: Program A, Program B, Program C, N/A |
 | Home Equity Rate (monthly) | Only for home equity loans |
-| Application Status | Drop-down (see [workflow](workflow.md)) |
+| Application Status | Drop-down with the 11 stages of the process (see [workflow](workflow.md#application-statuses)) |
 | Assigned To | Drop-down: Consultant A, or Consultant A & Consultant B |
 | Documents Submitted Date / Completion Date | Key milestones |
-| Payment Status | Drop-down: Paid, Pending, N/A |
+| Payment Status | Drop-down: Paid, Pending |
 | Notes | Current pending item or next step |
 | Expected Completion Month | Optional input (`yyyy-mm`), used before the completion date is known |
 
