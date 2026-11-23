@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mortgage Financing Operations — Demo Dashboard</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<style>
+  :root{
+    --bg:#f4f6f9; --card:#ffffff; --ink:#1b2433; --muted:#64748b; --line:#e5e9f0;
+    --navy:#1f3a5f; --green:#3f8f5a; --amber:#c98a1b; --violet:#7c6fd6; --red:#b4463c;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+  .wrap{max-width:1180px;margin:0 auto;padding:20px 16px 40px}
+  .demo{background:#fff4cc;border:1px solid #f0d98a;color:#7a5410;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  header.card{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  h1{font-size:19px;margin:0}
+  .sub{color:var(--muted);font-size:12.5px}
+  .btn{background:var(--navy);color:#fff;border:0;border-radius:8px;padding:8px 14px;font:600 13px Inter,sans-serif;cursor:pointer}
+  .btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;align-items:end;margin-top:14px}
+  label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-bottom:4px}
+  select,input[type=search]{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font:13px Inter,sans-serif;background:#fff;color:var(--ink)}
+  h2{font-size:13px;text-transform:uppercase;letter-spacing:.05em;margin:26px 0 10px;color:var(--navy)}
+  h2 span{text-transform:none;letter-spacing:0;color:var(--muted);font-weight:400}
+  .grid{display:grid;gap:12px}
+  .k4{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+  .k3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+  .c2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+  .kpi{border-left:4px solid var(--navy)}
+  .kpi .lbl{font-size:11px;text-transform:uppercase;color:var(--muted);letter-spacing:.04em}
+  .kpi .val{font-size:26px;font-weight:700;margin:4px 0 2px}
+  .kpi .note{font-size:12px;color:var(--muted)}
+  .split{display:flex;gap:16px;font-size:12px;margin-top:6px}
+  .split b{display:block;font-size:13px;color:var(--ink)}
+  .ok{color:var(--green)} .pend{color:var(--amber)}
+  .chart{position:relative;height:280px}
+  .tbl{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);text-align:left;padding:8px;border-bottom:1px solid var(--line);white-space:nowrap}
+  td{padding:8px;border-bottom:1px solid var(--line);white-space:nowrap}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+  tr.total td{font-weight:700;background:#f1f4f8}
+  .badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11.5px;font-weight:600;background:#eef2f7;color:var(--navy)}
+  .b-Completed{background:#e5f3ea;color:var(--green)} .b-Withdrawn{background:#f6e7e5;color:var(--red)}
+  .b-Paid{background:#e5f3ea;color:var(--green)} .b-Pending{background:#fbf1dc;color:#8a5d0e}
+  .err{color:var(--red);font-size:13px;margin-top:8px}
+  .src{font-size:12px;color:var(--muted);margin-top:8px}
+  footer{margin-top:24px;text-align:center;color:var(--muted);font-size:12px}
+  input[type=file]{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="demo"><b>Professional Portfolio Demonstration.</b> Recreated version of a dashboard I developed and use in a real professional environment. All names, records and financial information on this page are fictional and were created exclusively for demonstration purposes.</div>
+
+  <header class="card">
+    <div>
+      <h1>Mortgage Financing Operations — Monthly Tracking</h1>
+      <div class="sub">Application pipeline, commissions and expected payments · data source: tracking spreadsheet</div>
+    </div>
+    <div class="row">
+      <span class="sub" id="lastUpdated">Loading…</span>
+      <button class="btn ghost" id="btnFile" title="Load an edited copy of the demo spreadsheet (.xlsx or .csv)">Load spreadsheet</button>
+      <button class="btn" id="btnRefresh">↻ Refresh</button>
+      <input type="file" id="fileInput" accept=".csv,.xlsx">
+    </div>
+  </header>
+
+  <section class="card" style="margin-top:12px">
+    <div class="filters">
+      <div><label for="fMonth">Expected payment month</label><select id="fMonth"></select></div>
+      <div><label for="fResp">Assigned to</label><select id="fResp"></select></div>
+      <div><label for="fStatus">Application status</label><select id="fStatus"></select></div>
+      <div><label for="fSearch">Client / Application ID</label><input type="search" id="fSearch" placeholder="Search…"></div>
+      <div><button class="btn ghost" id="btnClear" style="width:100%">Clear filters</button></div>
+    </div>
+    <div class="err" id="errorBox"></div>
+    <div class="src" id="sourceInfo"></div>
+  </section>
+
+  <h2>Indicators <span id="scopeLbl">— all months</span></h2>
+  <div class="grid k4">
+    <div class="card kpi"><div class="lbl">In progress</div><div class="val" id="kOpen">–</div><div class="note">applications being processed</div></div>
+    <div class="card kpi" style="border-left-color:var(--green)"><div class="lbl">Completed</div><div class="val" id="kDone">–</div><div class="note">applications completed</div></div>
+    <div class="card kpi" style="border-left-color:var(--red)"><div class="lbl">Withdrawn</div><div class="val" id="kWd">–</div><div class="note">closed without completion</div></div>
+    <div class="card kpi" style="border-left-color:var(--violet)"><div class="lbl">Loan volume</div><div class="val" id="kVol">–</div><div class="note">excluding withdrawn</div></div>
+  </div>
+
+  <h2>Commissions by party</h2>
+  <div class="grid k3" id="partyCards"></div>
+
+  <div class="grid c2" style="margin-top:12px">
+    <div class="card"><h2 style="margin-top:0">Received vs. pending by month</h2><div class="chart"><canvas id="chMonth"></canvas></div></div>
+    <div class="card"><h2 style="margin-top:0">Commission split by party</h2><div class="chart"><canvas id="chParty"></canvas></div></div>
+  </div>
+  <div class="card" style="margin-top:12px"><h2 style="margin-top:0">Applications by status</h2><div class="chart" style="height:240px"><canvas id="chStatus"></canvas></div></div>
+
+  <div class="card" style="margin-top:12px">
+    <h2 style="margin-top:0">All applications</h2>
+    <div class="tbl"><table id="tDetail"><thead><tr>
+      <th>Application ID</th><th>Client</th><th>Transaction type</th><th class="num">Loan amount</th><th>Status</th><th>Assigned to</th><th class="num">Consultant share</th><th class="num">Firm retains</th><th>Payment</th><th>Notes</th>
+    </tr></thead><tbody></tbody></table></div>
+  </div>
+
+  <div class="card" style="margin-top:12px">
+    <h2 style="margin-top:0">Summary by expected payment month</h2>
+    <div class="tbl"><table id="tMonth"><thead><tr>
+      <th>Month</th><th class="num">Applications</th><th class="num">Received</th><th class="num">Pending</th><th class="num">Total (consultants)</th><th class="num">Firm retains</th>
+    </tr></thead><tbody></tbody></table></div>
+  </div>
+
+  <div class="card" style="margin-top:12px">
+    <h2 style="margin-top:0">Commissions by party — detail</h2>
+    <div class="tbl"><table id="tParty"><thead><tr>
+      <th>Party</th><th class="num">Applications</th><th class="num">Received</th><th class="num">Pending</th><th class="num">Total</th>
+    </tr></thead><tbody></tbody></table></div>
+  </div>
+
+  <footer>Demo dashboard · fictional data · reads the tracking spreadsheet export (<code>data/applications.csv</code>) every time it loads or is refreshed.</footer>
+</div>
+
+<script>
+const DEFAULT_CSV = 'data/applications.csv';
+const params = new URLSearchParams(location.search);
+const CSV_URL = params.get('csv') || DEFAULT_CSV; // optional: a CSV link published from Google Sheets
+let RAW = [], charts = {}, sourceLabel = '';
+
+const COL = {
+  id:'Application ID', client:'Client', type:'Transaction Type', loan:'Loan Amount', status:'Application Status',
+  resp:'Assigned To', share:'Consultant Share Amount', a:'Consultant A Receives', b:'Consultant B Receives',
+  firm:'Firm Retains', month:'Expected Payment Month', pay:'Payment Status', notes:'Notes'
+};
+const STATUS_ORDER = ['Submitted','Income Assessment','Document Collection','In Processing','Contract Signing','Completed','Withdrawn'];
+
+function num(v){
+  if (v === null || v === undefined) return 0;
+  if (typeof v === 'number') return v;
+  let s = String(v).trim(); if (!s) return 0;
+  const isPct = s.endsWith('%');
+  s = s.replace(/[^0-9.\-]/g,'');
+  const n = parseFloat(s); if (isNaN(n)) return 0;
+  return isPct ? n/100 : n;
+}
+const usd = n => n.toLocaleString('en-US',{style:'currency',currency:'USD',minimumFractionDigits:2});
+const usdK = n => n >= 1e6 ? '$'+(n/1e6).toFixed(2)+'M' : n >= 1e3 ? '$'+(n/1e3).toFixed(0)+'K' : usd(n);
+function monthLabel(m){
+  if (!m) return 'No date yet';
+  const s = String(m).trim(); const mt = s.match(/^(\d{4})-(\d{2})/);
+  if (!mt) return s;
+  return new Date(Date.UTC(+mt[1], +mt[2]-1, 1)).toLocaleString('en-US',{month:'short',year:'numeric',timeZone:'UTC'});
+}
+const monthKey = m => { const mt = String(m||'').match(/^(\d{4})-(\d{2})/); return mt ? mt[1]+mt[2] : '999999'; };
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function normalize(rows){
+  return rows.map(r => ({
+    id:String(r[COL.id]??'').trim(), client:String(r[COL.client]??'').trim(), type:String(r[COL.type]??'').trim(),
+    loan:num(r[COL.loan]), status:String(r[COL.status]??'').trim(), resp:String(r[COL.resp]??'').trim(),
+    share:num(r[COL.share]), a:num(r[COL.a]), b:num(r[COL.b]), firm:num(r[COL.firm]),
+    month:String(r[COL.month]??'').trim().slice(0,7), pay:String(r[COL.pay]??'').trim(), notes:String(r[COL.notes]??'').trim()
+  })).filter(r => r.id);
+}
+
+function setData(rows, label){
+  RAW = normalize(rows);
+  document.getElementById('errorBox').textContent = RAW.length ? '' : 'No applications found. Check that the file has the "Application ID" column.';
+  sourceLabel = label;
+  document.getElementById('lastUpdated').textContent = 'Updated: ' + new Date().toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'});
+  document.getElementById('sourceInfo').textContent = 'Data source: ' + label + ' · ' + RAW.length + ' applications';
+  populateFilters(); applyFilters();
+}
+
+function loadData(){
+  document.getElementById('errorBox').textContent = '';
+  const url = CSV_URL + (CSV_URL.includes('?') ? '&' : '?') + 'cb=' + Date.now();
+  Papa.parse(url, {download:true, header:true, skipEmptyLines:true,
+    complete: res => setData(res.data || [], CSV_URL === DEFAULT_CSV ? 'demo spreadsheet export (data/applications.csv)' : 'published CSV link'),
+    error: () => { document.getElementById('errorBox').textContent = 'Could not load the data file. If you opened this page directly from disk, use the "Load spreadsheet" button instead.'; document.getElementById('lastUpdated').textContent=''; }
+  });
+}
+
+function loadFile(file){
+  const name = file.name.toLowerCase();
+  if (name.endsWith('.csv')){
+    Papa.parse(file, {header:true, skipEmptyLines:true, complete: res => setData(res.data||[], 'uploaded file "'+file.name+'"')});
+  } else {
+    const fr = new FileReader();
+    fr.onload = e => {
+      try{
+        const wb = XLSX.read(new Uint8Array(e.target.result), {type:'array', cellDates:true});
+        const ws = wb.Sheets['Applications'] || wb.Sheets[wb.SheetNames[0]];
+        const rows = XLSX.utils.sheet_to_json(ws, {raw:false, defval:'', dateNF:'yyyy-mm-dd'});
+        setData(rows, 'uploaded file "'+file.name+'" (Applications sheet)');
+      }catch(err){ document.getElementById('errorBox').textContent = 'Could not read this file. Please upload the demo .xlsx or a .csv export.'; }
+    };
+    fr.readAsArrayBuffer(file);
+  }
+}
+
+function fillSelect(id, values, fmt){
+  const el = document.getElementById(id), prev = el.value;
+  el.innerHTML = '<option value="">All</option>' + values.map(v => `<option value="${esc(v)}">${esc(fmt?fmt(v):v)}</option>`).join('');
+  if (values.includes(prev)) el.value = prev;
+}
+function populateFilters(){
+  const months = [...new Set(RAW.map(r=>r.month).filter(Boolean))].sort((x,y)=>monthKey(x)-monthKey(y));
+  fillSelect('fMonth', months, monthLabel);
+  fillSelect('fResp', [...new Set(RAW.map(r=>r.resp).filter(Boolean))].sort());
+  const rank = s => { const i = STATUS_ORDER.indexOf(s); return i < 0 ? 99 : i; };
+  const st = [...new Set(RAW.map(r=>r.status).filter(Boolean))].sort((x,y)=>rank(x)-rank(y));
+  fillSelect('fStatus', st);
+}
+function filtered(){
+  const m = fMonth.value, r = fResp.value, s = fStatus.value, q = fSearch.value.trim().toLowerCase();
+  return RAW.filter(x => (!m || x.month===m) && (!r || x.resp===r) && (!s || x.status===s) &&
+    (!q || x.client.toLowerCase().includes(q) || x.id.toLowerCase().includes(q)));
+}
+function applyFilters(){
+  const rows = filtered();
+  document.getElementById('scopeLbl').textContent = fMonth.value ? '— expected payment in ' + monthLabel(fMonth.value) : '— all months';
+  renderKpis(rows); renderParties(rows); renderCharts(rows); renderDetail(rows); renderMonthTable(rows); renderPartyTable(rows);
+}
+
+function partyTotals(rows){
+  const P = {'Consultant A':{k:'a',paid:0,pend:0,n:0}, 'Consultant B':{k:'b',paid:0,pend:0,n:0}, 'Firm':{k:'firm',paid:0,pend:0,n:0}};
+  rows.forEach(r => Object.values(P).forEach(p => {
+    const v = r[p.k]; if (v > 0) p.n++;
+    if (/^paid$/i.test(r.pay)) p.paid += v; else if (/^pending$/i.test(r.pay)) p.pend += v;
+  }));
+  return P;
+}
+function renderKpis(rows){
+  kOpen.textContent = rows.filter(r => r.status && r.status!=='Completed' && r.status!=='Withdrawn').length;
+  kDone.textContent = rows.filter(r => r.status==='Completed').length;
+  kWd.textContent = rows.filter(r => r.status==='Withdrawn').length;
+  kVol.textContent = usdK(rows.filter(r => r.status!=='Withdrawn').reduce((s,r)=>s+r.loan,0));
+}
+const PCOL = {'Consultant A':'#1f3a5f','Consultant B':'#7c6fd6','Firm':'#3f8f5a'};
+function renderParties(rows){
+  const P = partyTotals(rows);
+  partyCards.innerHTML = Object.entries(P).map(([name,p]) => `
+    <div class="card kpi" style="border-left-color:${PCOL[name]}">
+      <div class="lbl">${name}</div><div class="val">${usd(p.paid+p.pend)}</div>
+      <div class="split"><div class="ok">Received<b>${usd(p.paid)}</b></div><div class="pend">Pending<b>${usd(p.pend)}</b></div></div>
+    </div>`).join('');
+}
+function renderCharts(rows){
+  Object.values(charts).forEach(c => c.destroy());
+  const byM = {};
+  rows.filter(r=>r.month).forEach(r => { const m = byM[r.month] ||= {paid:0,pend:0};
+    if (/^paid$/i.test(r.pay)) m.paid += r.share; else if (/^pending$/i.test(r.pay)) m.pend += r.share; });
+  const months = Object.keys(byM).sort((x,y)=>monthKey(x)-monthKey(y));
+  const money = {ticks:{callback:v=>'$'+Number(v).toLocaleString('en-US')}};
+  charts.m = new Chart(chMonth, {type:'bar', data:{labels:months.map(monthLabel), datasets:[
+      {label:'Received', data:months.map(m=>byM[m].paid), backgroundColor:'#3f8f5a', borderRadius:4},
+      {label:'Pending', data:months.map(m=>byM[m].pend), backgroundColor:'#c98a1b', borderRadius:4}]},
+    options:{maintainAspectRatio:false, plugins:{legend:{position:'bottom'}, tooltip:{callbacks:{label:c=>c.dataset.label+': '+usd(c.raw)}}}, scales:{x:{stacked:true,grid:{display:false}}, y:{stacked:true,...money}}}});
+  const P = partyTotals(rows), names = Object.keys(P);
+  charts.p = new Chart(chParty, {type:'doughnut', data:{labels:names, datasets:[{data:names.map(n=>P[n].paid+P[n].pend), backgroundColor:names.map(n=>PCOL[n]), borderWidth:2, borderColor:'#fff'}]},
+    options:{maintainAspectRatio:false, cutout:'62%', plugins:{legend:{position:'bottom'}, tooltip:{callbacks:{label:c=>c.label+': '+usd(c.raw)}}}}});
+  const st = STATUS_ORDER.concat([...new Set(rows.map(r=>r.status))].filter(s=>s && !STATUS_ORDER.includes(s)));
+  const cnt = st.map(s => rows.filter(r=>r.status===s).length);
+  charts.s = new Chart(chStatus, {type:'bar', data:{labels:st, datasets:[{label:'Applications', data:cnt,
+      backgroundColor:st.map(s=>s==='Completed'?'#3f8f5a':s==='Withdrawn'?'#b4463c':'#1f3a5f'), borderRadius:4}]},
+    options:{indexAxis:'y', maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{x:{ticks:{precision:0}}, y:{grid:{display:false}}}}});
+}
+function renderDetail(rows){
+  tDetail.tBodies[0].innerHTML = rows.map(r => `<tr>
+    <td>${esc(r.id)}</td><td>${esc(r.client)}</td><td>${esc(r.type)}</td><td class="num">${usd(r.loan)}</td>
+    <td><span class="badge b-${esc(r.status.replace(/\s/g,''))}">${esc(r.status)}</span></td><td>${esc(r.resp)}</td>
+    <td class="num">${usd(r.share)}</td><td class="num">${usd(r.firm)}</td>
+    <td><span class="badge b-${esc(r.pay)}">${esc(r.pay)}</span></td><td>${esc(r.notes)}</td></tr>`).join('')
+    || '<tr><td colspan="10">No applications match the selected filters.</td></tr>';
+}
+function renderMonthTable(rows){
+  const byM = {};
+  rows.forEach(r => { const k = r.month || ''; const m = byM[k] ||= {n:0,paid:0,pend:0,firm:0}; m.n++;
+    if (/^paid$/i.test(r.pay)) m.paid += r.share; else if (/^pending$/i.test(r.pay)) m.pend += r.share; m.firm += r.firm; });
+  const keys = Object.keys(byM).sort((x,y)=>monthKey(x)-monthKey(y));
+  const T = {n:0,paid:0,pend:0,firm:0};
+  const body = keys.map(k => { const m = byM[k]; Object.keys(T).forEach(f=>T[f]+=m[f]);
+    return `<tr><td>${monthLabel(k)}</td><td class="num">${m.n}</td><td class="num">${usd(m.paid)}</td><td class="num">${usd(m.pend)}</td><td class="num">${usd(m.paid+m.pend)}</td><td class="num">${usd(m.firm)}</td></tr>`; }).join('');
+  tMonth.tBodies[0].innerHTML = body + `<tr class="total"><td>Total</td><td class="num">${T.n}</td><td class="num">${usd(T.paid)}</td><td class="num">${usd(T.pend)}</td><td class="num">${usd(T.paid+T.pend)}</td><td class="num">${usd(T.firm)}</td></tr>`;
+}
+function renderPartyTable(rows){
+  const P = partyTotals(rows);
+  tParty.tBodies[0].innerHTML = Object.entries(P).map(([n,p]) => `<tr><td>${n}</td><td class="num">${p.n}</td><td class="num">${usd(p.paid)}</td><td class="num">${usd(p.pend)}</td><td class="num">${usd(p.paid+p.pend)}</td></tr>`).join('');
+}
+
+['fMonth','fResp','fStatus'].forEach(id => document.getElementById(id).addEventListener('change', applyFilters));
+fSearch.addEventListener('input', applyFilters);
+btnClear.onclick = () => { fMonth.value=''; fResp.value=''; fStatus.value=''; fSearch.value=''; applyFilters(); };
+btnRefresh.onclick = loadData;
+btnFile.onclick = () => fileInput.click();
+fileInput.onchange = e => { if (e.target.files[0]) loadFile(e.target.files[0]); e.target.value=''; };
+loadData();
+</script>
+</body>
+</html>
