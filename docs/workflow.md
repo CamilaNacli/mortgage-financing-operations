@@ -13,6 +13,10 @@ flowchart TB
     S1["1 · Referral & contact"] --> S2["2 · Needs assessment"] --> S3["3 · Intake checklist"] --> S4["4 · Application registration<br/>added to the tracker"] --> S5{{"5 · Income & eligibility<br/>decided by the institution"}}
     S5 -->|Proceed| P["Documentation<br/>phase B"]
     S5 -->|Close application| X["Notify client"]
+    X ~~~ PAD[" "]
+    P ~~~ PAD2[" "]
+    style PAD fill:none,stroke:none
+    style PAD2 fill:none,stroke:none
 ```
 
 The application enters the tracking spreadsheet at **step 4**. Step 5 is decided by the financial institution: if the application can proceed, it moves to documentation (phase B); if not, the application is closed and I notify the client.
