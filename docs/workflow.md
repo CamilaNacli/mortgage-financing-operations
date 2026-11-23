@@ -13,8 +13,8 @@ flowchart TB
     S1["1 · Referral & contact"] --> S2["2 · Needs assessment"] --> S3["3 · Intake checklist"] --> S4["4 · Application registration<br/>added to the tracker"] --> S5{{"5 · Income & eligibility<br/>decided by the institution"}}
     S5 -->|Proceed| P["Documentation<br/>phase B"]
     S5 -->|Close application| X["Notify client"]
-    X ~~~ PAD[" "]
-    P ~~~ PAD2[" "]
+    X ~~~ PAD[" <br/> <br/> <br/> <br/> <br/> "]
+    P ~~~ PAD2[" <br/> <br/> <br/> <br/> <br/> "]
     style PAD fill:none,stroke:none
     style PAD2 fill:none,stroke:none
 ```
