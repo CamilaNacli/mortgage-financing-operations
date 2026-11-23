@@ -64,7 +64,7 @@
 #mfo .legend{font-size:12px;color:var(--muted);margin-top:6px}
 </style>
 
-<div id="mfo" data-csv="https://docs.google.com/spreadsheets/d/e/2PACX-1vRCU6FVhB-oC9PDeL9j69t29MCYOBJ37h-UcUptC727a3zjquXazODRHsdsjlmw2YDfkva6NWO06lMg/pub?gid=1477586355&amp;single=true&amp;output=csv" data-fallback="data/applications.csv">
+<div id="mfo" data-csv="https://docs.google.com/spreadsheets/d/e/2PACX-1vRCU6FVhB-oC9PDeL9j69t29MCYOBJ37h-UcUptC727a3zjquXazODRHsdsjlmw2YDfkva6NWO06lMg/pub?gid=505731897&amp;single=true&amp;output=csv" data-fallback="data/applications.csv">
 <div class="wrap">
   <div class="demo"><b>Professional Portfolio Demonstration.</b> Recreated version of a dashboard I developed and use in a real professional environment. All names, records and financial information on this page are fictional and were created exclusively for demonstration purposes.</div>
 
@@ -97,8 +97,7 @@
   <div class="grid k2">
     <div class="card kpi"><div class="lbl">In progress</div><div class="val" data-id="kOpen">–</div><div class="note">applications being processed</div></div>
     <div class="card kpi" style="border-left-color:var(--green)"><div class="lbl">Completed</div><div class="val" data-id="kDone">–</div><div class="note">applications completed</div></div>
-    <div class="card kpi" style="border-left-color:var(--red)"><div class="lbl">Withdrawn <span class="ext">demo extension</span></div><div class="val" data-id="kWd">–</div><div class="note">closed without completion</div></div>
-    <div class="card kpi" style="border-left-color:var(--violet)"><div class="lbl">Loan volume <span class="ext">demo extension</span></div><div class="val" data-id="kVol">–</div><div class="note">excluding withdrawn</div></div>
+    <div class="card kpi" style="border-left-color:var(--violet)"><div class="lbl">Loan volume <span class="ext">demo extension</span></div><div class="val" data-id="kVol">–</div><div class="note">total financed amount</div></div>
   </div>
 
   <h2>Commissions by party</h2>
@@ -133,7 +132,7 @@
 
   <div class="card" style="margin-top:12px">
     <h2>Applications by status <span class="ext">demo extension</span></h2>
-    <div class="chart" style="height:240px"><canvas data-id="chStatus"></canvas></div>
+    <div class="chart" style="height:340px"><canvas data-id="chStatus"></canvas></div>
   </div>
 
   <div class="foot">Portfolio demonstration · fictional data · synced with the demo tracking spreadsheet every time the page loads or is refreshed.</div>
@@ -152,7 +151,7 @@
   const COL = {id:'Application ID', client:'Client', type:'Transaction Type', loan:'Loan Amount', status:'Application Status',
     resp:'Assigned To', share:'Consultant Share Amount', a:'Consultant A Receives', b:'Consultant B Receives',
     firm:'Firm Retains', month:'Expected Payment Month', pay:'Payment Status', notes:'Notes'};
-  const STATUS_ORDER = ['Submitted','Income Assessment','Document Collection','In Processing','Contract Signing','Completed','Withdrawn'];
+  const STATUS_ORDER = ['Submitted','Awaiting Insurance','Application Sent','Under Review','Property Appraisal','Application Under Review','Contract Signing','In Registry Recording','Registered - Awaiting Fund Release','Funds Released','Completed'];
   const PCOL = {'Consultant A':'#1f3a5f','Consultant B':'#7c6fd6','Firm':'#3f8f5a'};
 
   function num(v){
@@ -249,10 +248,9 @@
     return P;
   }
   function renderKpis(rows){
-    $('kOpen').textContent = rows.filter(r => r.status && r.status!=='Completed' && r.status!=='Withdrawn').length;
+    $('kOpen').textContent = rows.filter(r => r.status && r.status!=='Completed').length;
     $('kDone').textContent = rows.filter(r => r.status==='Completed').length;
-    $('kWd').textContent = rows.filter(r => r.status==='Withdrawn').length;
-    $('kVol').textContent = usdK(rows.filter(r => r.status!=='Withdrawn').reduce((s,r)=>s+r.loan,0));
+    $('kVol').textContent = usdK(rows.reduce((s,r)=>s+r.loan,0));
   }
   function renderParties(rows){
     const P = partyTotals(rows);
@@ -275,10 +273,10 @@
       options:{maintainAspectRatio:false, cutout:'62%', plugins:{legend:{position:'bottom'}, tooltip:{callbacks:{label:c=>c.label+': '+usd(c.raw)}}}}});
     const st = STATUS_ORDER.concat([...new Set(rows.map(r=>r.status))].filter(s=>s && !STATUS_ORDER.includes(s)));
     charts.s = new Chart($('chStatus'), {type:'bar', data:{labels:st, datasets:[{label:'Applications', data:st.map(s => rows.filter(r=>r.status===s).length),
-        backgroundColor:st.map(s=>s==='Completed'?'#3f8f5a':s==='Withdrawn'?'#b4463c':'#1f3a5f'), borderRadius:4}]},
+        backgroundColor:st.map(s=>s==='Completed'?'#3f8f5a':'#1f3a5f'), borderRadius:4}]},
       options:{indexAxis:'y', maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{x:{ticks:{precision:0}}, y:{grid:{display:false}}}}});
   }
-  function statusBadge(s){ return '<span class="badge '+(s==='Completed'?'b-done':s==='Withdrawn'?'b-wd':'')+'">'+esc(s)+'</span>'; }
+  function statusBadge(s){ return '<span class="badge '+(s==='Completed'?'b-done':'')+'">'+esc(s)+'</span>'; }
   function payBadge(p){ return '<span class="badge '+(/^paid$/i.test(p)?'b-paid':/^pending$/i.test(p)?'b-pend':'')+'">'+esc(p)+'</span>'; }
   function renderDetail(rows){
     $('detailEmpty').style.display = rows.length ? 'none' : 'block';

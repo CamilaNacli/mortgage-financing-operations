@@ -100,9 +100,11 @@ Features that reproduce the original dashboard:
 These items were added only to make the demo easier to explore. They are labeled "demo extension" on the dashboard and were not part of the original solution:
 
 - application status filter and the "Applications by status" chart;
-- "Withdrawn" and "Loan volume" indicators, and the Notes column in the detail table;
+- "Loan volume" indicator and the Notes column in the detail table;
 - **Load spreadsheet** button, so visitors can test the dashboard with an edited copy of the demo file;
-- the detailed workflow stages (Submitted, Income Assessment, Document Collection, In Processing, Contract Signing, Withdrawn), which represent the steps I follow, simplified for the demo.
+
+
+The 11 application statuses (from *Submitted* to *Completed*) are the same stages used in the original spreadsheet, translated into English. See [docs/workflow.md](docs/workflow.md#application-statuses).
 
 ## Data Confidentiality
 
