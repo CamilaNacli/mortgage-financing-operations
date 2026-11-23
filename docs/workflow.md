@@ -4,23 +4,50 @@ This is the general workflow I follow for each mortgage financing application, f
 
 > Credit decisions belong to the financial institution. My role is to guide the client, organize the information and documents, register and follow up on the application, and keep everyone informed.
 
-```mermaid
-flowchart TD
-    A["1 · Client Referral & Initial Contact<br/>referrals from bank managers and real estate agencies"] --> B["2 · Needs Assessment<br/>client goals, property and type of financing"]
-    B --> C["3 · Client Intake Checklist<br/>my own checklist for the initial analysis"]
-    C --> D["4 · Application Registration<br/>application submitted on the lender's portal"]
-    D --> E{"5 · Income & Eligibility Assessment<br/>decision made by the financial institution"}
-    E -- "can proceed" --> F["6 · Document Collection<br/>request and check required documents"]
-    E -- "cannot proceed" --> X["Client informed<br/>application closed"]
-    F --> G["7 · Secure Document Organization<br/>one restricted folder per client and application"]
-    G --> H["8 · Application Processing & Follow-up<br/>pending items, additional requests, contract signing"]
-    H --> I["Completed"]
+The process has three phases. Each diagram below covers one phase, in the order I work.
 
-    D -.-> T[("9 · Operational Tracking<br/>Google Sheets")]
-    F -.-> T
-    H -.-> T
-    I -.-> T
-    T --> R["10 · Dashboard & Reporting<br/>pipeline, commissions, expected payments"]
+### A · Client intake & eligibility
+
+```mermaid
+flowchart TB
+    subgraph R1[" "]
+        direction LR
+        S1["1 · Referral<br/>& contact"] --> S2["2 · Needs<br/>assessment"] --> S3["3 · Intake<br/>checklist"]
+    end
+    subgraph R2[" "]
+        direction LR
+        S4["4 · Application<br/>registration"] --> S5{{"5 · Income &<br/>eligibility"}}
+    end
+    R1 --> R2
+    style R1 fill:none,stroke:none
+    style R2 fill:none,stroke:none
+```
+
+Step 5 is decided by the financial institution. If the application can proceed, it moves to phase B. If not, I inform the client and the application is closed.
+
+### B · Documentation & application processing
+
+```mermaid
+flowchart LR
+    S6["6 · Document<br/>collection"] --> S7["7 · Secure<br/>organization"] --> S8["8 · Processing<br/>& follow-up"]
+```
+
+Processing covers the remaining stages until completion: appraisal, contract signing, registry and fund release (see [Application statuses](#application-statuses)).
+
+### C · Completion & operational reporting
+
+```mermaid
+flowchart LR
+    DONE(["Completed"]) --> S9[("9 · Tracking<br/>spreadsheet")] --> S10["10 · Dashboard<br/>& reporting"]
+```
+
+### How tracking supports every phase
+
+The spreadsheet is not a final step only: it is updated from step 4 onward, every time an application changes stage. The dashboard reads it directly.
+
+```mermaid
+flowchart LR
+    SH[("Tracking<br/>spreadsheet")] --> CSV["Published<br/>CSV"] --> DB["Dashboard"]
 ```
 
 ## Steps

@@ -2,7 +2,7 @@
 
 The tracking spreadsheet is the single source of truth for every application. The dashboard only reads it. All calculations live in the spreadsheet, so the numbers are the same wherever they are viewed.
 
-Demo file: [`spreadsheet/mortgage-operations-demo.xlsx`](../spreadsheet/mortgage-operations-demo.xlsx). It opens in Google Sheets or Excel, and every value in it is fictional.
+Demo file: [download mortgage-operations-demo.xlsx](https://raw.githubusercontent.com/CamilaNacli/mortgage-financing-operations/main/spreadsheet/mortgage-operations-demo.xlsx). It opens in Google Sheets or Excel, and every value in it is fictional.
 
 ## Tabs
 
